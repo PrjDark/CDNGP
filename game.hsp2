@@ -1,0 +1,254 @@
+#deffunc apply int
+	mref var_24, 0
+	repeat 31
+		stick var_25, 0, 1
+		if var_25 = 256 {
+			var_26 = 1
+			break
+		}
+		await var_24
+		gsel var_27
+		pos 0, 0
+		gmode 3, var_28, var_29, ( cnt * 8 )
+		gcopy var_30, 0, 0
+	loop
+	gsel var_27
+	pos 0, 0
+	gmode 1, var_28, var_29, 256
+	gcopy var_30, 0, 0
+	gsel var_30
+	return
+#deffunc applyex int, int, int, int
+	gsel var_27
+	pos 0, 0
+	gmode 1, var_28, var_29, 256
+	gcopy var_30, 0, 0
+	gsel var_30
+	return
+#deffunc applyexlite int, int, int, int
+	gsel var_27
+	pos 0, 0
+	gmode 1, var_28, var_29, 256
+	gcopy var_30, 0, 0, 800, 48
+	gsel var_30
+	return
+#deffunc applyfc int
+	mref var_24, 0
+	repeat 31
+		stick var_25, 0, 1
+		if var_25 = 256 {
+			var_31 = 1
+			break
+		}
+		await var_24
+		gsel var_27
+		pos 0, 0
+		gmode 3, var_28, var_29, ( cnt * 8 )
+		gcopy var_30, 0, 0
+	loop
+	gsel var_27
+	pos 0, 0
+	gmode 1, var_28, var_29, 256
+	gcopy var_30, 0, 0
+	gsel var_30
+	return
+#deffunc setchar int, int, int
+	mref var_32, 0
+	mref var_33, 1
+	mref var_34, 2
+	pos ( ( var_34 * 48 ) + 32 ), ( ( 8 * 48 ) - ( var_33 * 48 ) )
+	color 255, 255, 255
+	gmode 4, 48, 48, 256
+	if var_32 = 0 {
+		return
+	}
+	gcopy ( var_35 + var_32 ), 0, 0, 48, 48
+	return
+#deffunc setcharex int, int, int
+	mref var_32, 0
+	mref var_33, 1
+	mref var_34, 2
+	pos ( ( var_34 * 48 ) + 32 ), ( ( 8 * 48 ) - ( var_33 * 48 ) )
+	color 255, 255, 255
+	gmode 4, 48, 48, 128
+	if var_32 = 0 {
+		return
+	}
+	gcopy ( var_35 + var_32 ), 0, 0, 48, 48
+	return
+#deffunc getchar val, int, int
+	mref var_36, 1
+	mref var_37, 2
+	mref var_38, 16
+	notesel var_39
+	noteget var_40, ( var_37 )
+	strmid var_41, var_40, ( var_36 ), 1
+	if var_37 > ( var_42 - 1 ) {
+		var_41 = 0
+	}
+	int var_41
+	var_38 = var_41
+	return
+#deffunc getline val, int
+	mref var_43 1
+	mref var_38, 16
+	notesel var_39
+	noteget var_40, ( var_43 )
+	var_41 = var_40
+	return
+#deffunc getmouse val, val
+	mref var_44, 16
+	mref var_45, 17
+	var_45 = ( ( mousex - 32 ) / 48 )
+	var_44 = 8 - ( ( mousey / 48 ) )
+	return
+	notesel var_39
+	noteget var_40, ( var_36 - 1 )
+	strmid var_41, var_40, ( var_37 - 1 ), 1
+	int var_41
+	var_38 = var_41
+	return
+#deffunc setcharfromdata int, int, int, int
+	notesel var_39
+	notemax var_42
+	repeat 16
+		noteget var_40, cnt
+		if cnt = var_42 {
+			break
+		}
+		var_46 = cnt
+		repeat 8
+			strmid var_41, var_40, cnt, 1
+			int var_41
+			if var_41 ! 0 {
+				setchar var_41, cnt, var_46
+			}
+		loop
+		await
+	loop
+	return
+#deffunc setdata int, int, int
+	mref var_47, 0
+	mref var_36, 1
+	mref var_37, 2
+	notesel var_39
+	noteget var_40, var_37
+	var_48 = var_40
+	strmid var_49, var_40, 0, ( var_36 - 0 )
+	strmid var_50, var_40, ( var_36 + 1 ), 8
+	var_40 = "" + var_49 + var_47 + "" var_50
+	strmid var_51, var_40, 0, 8
+	notedel var_37
+	noteadd "" + var_51, var_37
+	return
+#deffunc initdc int, int, int, int
+	notesel var_39
+	var_39 = ""
+	repeat 16
+		noteadd "00000000"
+	loop
+	return
+#deffunc adddc val, int
+	mref var_43, 1
+	mref var_38, 24
+	notesel var_39
+	if var_43 = -1 {
+		notedel 0
+	}
+	var_52 = 0
+	repeat 16
+		noteget var_40, cnt
+		if var_40 ! "" {
+			if var_40 = "00000000" {
+				var_52 + +
+			}
+		}
+	loop
+	if var_52 = 0 {
+		var_53 = 1
+	}
+	notedel var_43
+	strmid var_54, var_38, 0, 8
+	noteadd "" + var_54, var_43
+	return
+#deffunc getmaxy val
+	mref var_55, 16
+	notesel var_39
+	notemax var_42
+	if var_42 > 16 {
+		var_42 = 16
+	}
+	repeat var_42
+		noteget var_40, ( ( var_42 - 1 ) - cnt )
+		if var_40 ! "00000000" {
+			var_55 = cnt
+			break
+		}
+		var_55 = 16
+	loop
+	if var_55 > 16 {
+		var_55 = 16
+	}
+	var_55 = 16 - var_55
+	return
+#deffunc verifydc int, int, int, int
+	notesel var_39
+	notemax var_42
+	if var_42 > 16 {
+		var_42 = 16
+	}
+	repeat var_42
+		var_56 = cnt
+		noteget var_40, cnt
+		if var_40 = "00000000" {
+			notedel cnt
+			break
+		}
+	loop
+	notesel var_39
+	repeat var_56
+		noteadd "00000000"
+	loop
+	return
+#deffunc verifydcex int, int, int, int
+	notesel var_39
+	notemax var_42
+	var_56 = 0
+	if var_42 < 16 {
+		var_42 = 16
+	}
+	repeat var_42
+		noteget var_40, ( cnt )
+		if var_39 = var_57 {
+			break
+		}
+		if var_40 = "00000000" {
+			notedel ( cnt )
+			continue 0
+		}
+	loop
+	notemax var_58
+	repeat ( 16 - var_58 )
+		noteadd "00000000"
+	loop
+	return
+#deffunc generaternd int, int, int, int
+	rnd var_59, 5
+	var_59 + +
+	rnd var_60, 5
+	var_60 + +
+	rnd var_61, 5
+	var_61 + +
+	rnd var_62, 5
+	var_62 + +
+	rnd var_63, 5
+	var_63 + +
+	rnd var_64, 5
+	var_64 + +
+	rnd var_65, 5
+	var_65 + +
+	rnd var_66, 5
+	var_66 + +
+	var_67 = "" + var_59 + var_60 + var_61 + var_62 + var_63 + var_64 + var_65 + var_66
+	adddc var_67, 15
+	return

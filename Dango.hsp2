@@ -1,0 +1,792 @@
+#include "hspext.as"
+#include "hspsock.as"
+#include "llmod.as"
+
+goto * MAIN
+
+#include "game.hsp2"
+
+*MAIN
+	skiperr 1
+	gsel 0, - 4
+	randomize
+	var_27 = 2
+	var_30 = 3
+	var_35 = 10
+	var_68 = 20
+	var_69 = 30
+	var_70 = 4
+	var_71 = 5
+	var_72 = 6
+	var_73 = 32
+	var_74 = 100
+	var_28 = 800
+	var_29 = ( var_28 / 16 ) * 9
+	var_75 = "CDNGP:J:A:A:20110802001"
+	var_76 = "だんごたべほうだい"
+	var_77 = "(C)2011 Project Dark★ All Rights Reserved."
+	func_regkey 0, "SOFTWARE\\Project Dark\\Dango Tabehoudai\\", 1
+	func_regkey 0, "SOFTWARE\\Project Dark\\Dango Tabehoudai\\", 0
+	func_getreg var_78, "SYSTEMID", 0
+	notesel var_57
+	repeat 16
+		noteadd "00000000"
+	loop
+	buffer var_30, var_28, var_29
+	title "Back Buffer"
+	screen var_27, var_28, var_29, 2
+	title "Midtime Engine HD v1.12.6 Final  -  Powered by DeepCave Exploration"
+	cls 4
+	gsel var_27, 1
+	await 2000
+	title "" + var_76
+	repeat 3
+		color 0, 0, 0
+		boxf
+		color 255, 255, 255
+		pos 50, ( winy - 50 )
+		mes "Please wait"
+		await var_74
+		pos 50, ( winy - 50 )
+		mes "Please wait."
+		await var_74
+		pos 50, ( winy - 50 )
+		mes "Please wait.."
+		await var_74
+		pos 50, ( winy - 50 )
+		mes "Please wait..."
+		await var_74
+	loop
+	gsel var_27, 1
+*label_63
+	var_31 = 0
+	var_53 = 0
+	gsel var_30
+	color 0, 0, 0
+	boxf
+	font "MS UI Gothic", var_73
+	color 255, 255, 255
+	picload "Data/Image/CircleLogo.bmp"
+	applyfc 40
+	if var_31 = 1 {
+		goto label_64
+	}
+	repeat 100
+		await 10
+		stick var_79, 0, 1
+		if var_79 = 256 {
+			var_31 = 1
+		}
+		if var_31 = 1 {
+			break
+		}
+	loop
+	if var_31 = 1 {
+		goto label_64
+	}
+	gsel var_30
+	color 0, 0, 0
+	boxf
+	applyfc 20
+*label_64
+	var_31 = 0
+	mci "open Data/Sound/BGM_Title.wav alias BGM type MPEGVIDEO"
+	mci "play BGM"
+	var_80 = 24
+	buffer var_70, 220, var_80, 0
+	title "APPCODE"
+	color 0, 0, 0
+	boxf
+	color 255, 255, 255
+	font "MS UI Gothic", var_81
+	pos 5, 5
+	mes "" + var_75
+	buffer var_71, 360, var_80, 0
+	title "COPYR"
+	color 0, 0, 0
+	boxf
+	color 255, 255, 255
+	font "MS UI Gothic", var_81
+	pos 5, 5
+	mes "" + var_77
+	buffer var_72, var_28, var_80, 0
+	title "INFO"
+	color 0, 0, 0
+	boxf
+	color 255, 255, 255
+	font "MS UI Gothic", var_81
+	buffer var_69, var_28, var_29
+	title "TEST WINDOW"
+	picload "Data/Image/Title.bmp"
+	color 0, 0, 0
+	pos 40, ( winy - 100 )
+	font "MS UI Gothic", 28
+	mes "HighScore : " + var_78
+	gsel var_30
+	pos 0, 0
+	pos 0, 0
+	gmode 1, var_28, var_29, 0
+	gcopy var_69, 0, 0, var_28, var_29
+	pos 20, 20
+	gmode 3, var_28, var_29, 128
+	gcopy var_70, 0, 0, var_28, var_29
+	pos ( winx / 4 ), ( winy - 80 )
+	gmode 3, var_28, var_29, 128
+	gcopy var_71, 0, 0, var_28, var_29
+	apply 50
+	repeat
+		gsel var_27
+		font "MS UI Gothic", 24
+		color 0, 0, 0
+		pos ( winx / 3 ), ( winy / 4 * 3 - var_73 - var_73 )
+		mes "クリックしてください"
+		repeat 50
+			await 10
+			stick var_79, 0, 1
+			if var_79 = 256 {
+				var_31 = 1
+				break
+			}
+			gosub label_68
+		loop
+		if var_31 = 1 {
+			break
+		}
+		applyex
+		repeat 50
+			await 10
+			stick var_79, 0, 1
+			if var_79 = 256 {
+				var_31 = 1
+				break
+			}
+			gosub label_68
+		loop
+		if var_31 = 1 {
+			break
+		}
+	loop
+	var_31 = 0
+	goto label_70
+*label_68
+	return
+	gsel var_27
+	pos 200, ( winy / 2 )
+	var_82 = var_82 + 4
+	var_82 = var_82 \ 128
+	color ( var_82 + 128 ), 0, 0
+	mes "ERROR"
+	return
+*label_70
+	mci "stop BGM"
+	mci "close BGM"
+	goto label_71
+*label_72
+	var_83 = var_84
+	buffer var_69, var_28, var_29
+	title "TEST WINDOW"
+	picload "Data/Image/BG.bmp"
+	if var_85 = 2 {
+		picload "Data/Image/BG_Boss.bmp"
+	}
+	mci "close BGM"
+	if var_85 = 1 {
+		mci "open Data/Sound/BGM_OS.wav alias BGM type MPEGVIDEO"
+	}
+	if var_85 = 2 {
+		mci "open Data/Sound/BGM_Boss.wav alias BGM type MPEGVIDEO"
+	}
+	mci "play BGM repeat"
+	buffer ( var_35 + 1 ), 48, 48
+	title "Character Window"
+	picload "Data/Image/DangoPink.bmp"
+	buffer ( var_35 + 2 ), 48, 48
+	title "Character Window"
+	picload "Data/Image/DangoWater.bmp"
+	buffer ( var_35 + 3 ), 48, 48
+	title "Character Window"
+	picload "Data/Image/DangoGreen.bmp"
+	buffer ( var_35 + 4 ), 48, 48
+	title "Character Window"
+	picload "Data/Image/DangoBlack.bmp"
+	buffer ( var_35 + 5 ), 48, 48
+	title "Character Window"
+	picload "Data/Image/DangoBurn.bmp"
+	buffer ( var_35 + 6 ), 48, 48
+	title "Character Window"
+	buffer ( var_35 + 7 ), 48, 48
+	title "Character Window"
+	buffer ( var_35 + 8 ), 48, 48
+	title "Character Window"
+	picload "Data/Image/Decide.bmp"
+	buffer ( var_35 + 9 ), 48, 48
+	title "Character Window"
+	picload "Data/Image/Boxes.bmp"
+	initdc
+	repeat var_86
+		generaternd
+		verifydc
+	loop
+	gosub label_74
+	verifydcex
+	setcharfromdata
+	gosub label_75
+	gettime var_87, 3
+	gettime var_88, 4
+	gettime var_89, 5
+	gettime var_90, 6
+	var_91 = var_92 + var_93 + var_94 + var_95
+	repeat
+		gsel var_30
+		await 10
+		if var_53 = 1 {
+			gsel var_30
+			color 0, 0, 0
+			boxf
+			apply 30
+			break
+		}
+		var_96 = var_97
+		var_98 = var_99
+		stick var_79, 0, 1
+		if var_100 ! 1 {
+			getmouse var_97, var_99
+		}
+		if var_100 ! 1 {
+			var_101 = mousex
+			var_102 = mousey
+		}
+		if var_100 = 1 {
+			if mousex ! var_101 {
+				var_100 = 0
+			}
+		}
+		if var_100 = 1 {
+			if mousey ! var_102 {
+				var_100 = 0
+			}
+		}
+		if var_79 = 1 {
+			var_99 - -
+			var_100 = 1
+		}
+		if var_79 = 2 {
+			var_97 + +
+			var_100 = 1
+		}
+		if var_79 = 4 {
+			var_99 + +
+			var_100 = 1
+		}
+		if var_79 = 8 {
+			var_97 - -
+			var_100 = 1
+		}
+		if var_97 < 0 {
+			var_97 = 0
+		}
+		if var_97 > 7 {
+			var_97 = 7
+		}
+		if var_99 < 0 {
+			var_99 = 0
+		}
+		if var_99 > 15 {
+			var_99 = 15
+		}
+		if var_79 = 32 {
+			var_79 = 256
+		}
+		if var_79 = 16 {
+			var_79 = 512
+		}
+		if var_79 = 256 {
+			gosub label_77
+			setcharex 8, var_97, var_99
+			applyex
+			var_103 = var_97
+			var_104 = var_99
+			var_105 = var_106
+			getchar var_106, var_97, var_99
+			if var_97 = var_107 {
+				if var_99 = var_108 {
+					var_109 = 1
+				}
+			}
+			if var_109 ! 1 {
+				if var_105 ! 0 {
+					if var_106 ! 5 {
+						var_103 = 10
+						var_104 = 16
+						if var_105 = 4 {
+							if var_106 ! 0 {
+								var_105 = var_106
+							}
+						}
+						if var_106 = 4 {
+							var_106 = var_105
+							var_110 = 1
+						}
+						if var_105 = var_106 {
+							setdata 0, var_97, var_99
+							setdata 0, var_107, var_108
+							verifydcex
+							repeat var_111
+								var_83 = var_83 + ( 100 * var_111 )
+								if var_110 = 1 {
+									var_110 = 0
+									var_83 = var_83 - ( 50 * var_111 )
+								}
+							loop
+							gosub label_77
+							var_106 = 0
+						}
+					}
+				}
+			}
+			if var_106 = 5 {
+				var_106 = 0
+				var_112 = 0
+				getmaxy var_112
+				var_112 = 16 - var_112
+				generaternd
+				repeat var_112
+					verifydc
+					gosub label_77
+				loop
+				var_83 = var_83 - 0
+				verifydcex
+			}
+			var_109 = 0
+			var_107 = var_97
+			var_108 = var_99
+		}
+		if var_79 = 512 {
+			var_105 = var_106
+			getchar var_106, var_97, var_99
+			if var_106 = 5 {
+				setdata 0, var_97, var_99
+				verifydcex
+				repeat var_111
+					var_83 = var_83 + 500
+				loop
+				gosub label_77
+			}
+		}
+		var_113 = 0
+		getmaxy var_113
+		if var_113 = 0 {
+			repeat var_111
+			loop
+			repeat 3
+				generaternd
+				verifydcex
+			loop
+			gosub label_77
+		}
+		if var_79 = 128 {
+			var_106 = 0
+			var_112 = 0
+			getmaxy var_112
+			var_112 = 16 - var_112
+			var_83 = var_83 + ( 1000 * var_111 )
+			generaternd
+			repeat var_112
+				verifydc
+				gosub label_77
+			loop
+			if var_83 < 1 {
+				var_83 = 0
+			}
+			verifydcex
+		}
+		if var_97 ! var_96 {
+			gosub label_75
+			gsel var_27
+			setchar 9, var_97, var_99
+		}
+		if var_99 ! var_98 {
+			gosub label_75
+			gsel var_27
+			setchar 9, var_97, var_99
+		}
+		gettime var_114, 3
+		var_115 = ( var_114 - var_87 ) * 86400
+		gettime var_116, 4
+		var_117 = ( var_116 - var_88 ) * 3600
+		gettime var_118, 5
+		var_119 = ( var_118 - var_89 ) * 60
+		gettime var_120, 6
+		var_121 = ( var_120 - var_90 )
+		var_122 = 0 + var_121 + var_119 + var_117
+		var_123 = var_122 \ var_124
+		if var_123 = 0 {
+			if var_125 = 0 {
+				var_112 = 0
+				getmaxy var_112
+				var_112 = 16 - var_112
+				generaternd
+				repeat var_112
+					verifydc
+					gosub label_77
+				loop
+				var_125 = 1
+			}
+		}
+		else {
+			var_125 = 0
+		}
+		if var_122 ! var_126 {
+			gosub label_85
+		}
+		var_126 = var_122
+		if var_85 = 1 {
+			gosub label_86
+		}
+	loop
+	goto label_87
+*label_86
+	if var_83 > 3000 {
+		var_111 = 2
+	}
+	if var_83 > 10000 {
+		var_111 = 3
+	}
+	if var_83 > 50000 {
+		var_111 = 4
+	}
+	if var_83 > 100000 {
+		var_111 = 5
+	}
+	if var_83 > 300000 {
+		var_111 = 6
+	}
+	if var_83 > 800000 {
+		var_111 = 7
+	}
+	if var_83 > 1500000 {
+		var_111 = 8
+	}
+	if var_83 > 4000000 {
+		var_111 = 9
+	}
+	if var_83 > 9000000 {
+		var_111 = 10
+	}
+	if var_111 = 2 {
+		var_124 = 9
+	}
+	if var_111 = 3 {
+		var_124 = 8
+	}
+	if var_111 = 4 {
+		var_124 = 7
+	}
+	if var_111 = 5 {
+		var_124 = 6
+	}
+	if var_111 = 6 {
+		var_124 = 5
+	}
+	if var_111 = 7 {
+		var_124 = 4
+	}
+	if var_111 = 8 {
+		var_124 = 3
+	}
+	if var_111 = 9 {
+		var_124 = 2
+	}
+	if var_111 = 10 {
+		var_124 = 1
+	}
+	return
+*label_77
+	gosub label_74
+	setcharfromdata
+	applyex 0
+	var_127 = var_103
+	var_128 = var_104
+	if var_127 ! var_103 {
+		setchar 8, var_103, var_104
+		applyex
+	}
+	if var_128 ! var_104 {
+		setchar 8, var_103, var_104
+		applyex
+	}
+	return
+*label_85
+	gosub label_74
+	setcharfromdata
+	applyexlite 0
+	return
+*label_74
+	gsel var_30
+	pos 0, 0
+	pos 0, 0
+	gmode 1, var_28, var_29, 0
+	gcopy var_69, 0, 0, var_28, var_29
+	var_129 = 150
+	color var_129, var_129, var_129
+	repeat 9
+		line 32, ( ( cnt + 1 ) * 48 ), var_28, ( ( cnt + 1 ) * 48 )
+	loop
+	repeat 17
+		line ( ( cnt * 48 ) + 32 ), 48, ( ( cnt * 48 ) + 32 ), ( var_29 - 18 )
+	loop
+	font "MS UI Gothic", 24
+	color 0, 0, 0
+	if var_85 = 2 {
+		color 255, 255, 255
+	}
+	pos 20, 20
+	mes "Level: " + "　　　　だんご追加時間" + "　　　秒" + "　　　点数: "
+	pos 20, ( winy - 20 )
+	font "MS UI Gothic", 18
+	color 0, 0, 0
+	if var_85 = 2 {
+		color 255, 255, 255
+	}
+	pos 20, 0
+	mes "ESC で　だんご強制追加 + ボーナス点"
+	font "MS UI Gothic", 30
+	color 0, 0, 0
+	if var_85 = 2 {
+		color 255, 255, 255
+	}
+	pos 90, 15
+	mes "" + var_111
+	pos 310, 15
+	mes "" + var_124
+	pos 550, 15
+	mes "" + var_83
+	var_130 = var_122 / 60
+	var_131 = var_122 \ 60
+	if var_131 > 9 {
+		pos ( winx - 100 ), 15
+		mes "" + var_130 + " : " + var_131
+	}
+	else {
+		pos ( winx - 100 ), 15
+		mes "" + var_130 + " : 0" + var_131
+	}
+	return
+*label_87
+	goto label_90
+*label_71
+	mci "close BGM"
+	mci "open Data/Sound/MenuDDC.wav alias Move type MPEGVIDEO"
+	mci "open Data/Sound/Pop.wav alias Decide type MPEGVIDEO"
+	mci "open Data/Sound/BGM_Game.wav alias BGM type MPEGVIDEO"
+	mci "play BGM repeat"
+	buffer ( var_35 + 1 ), 48, 48
+	title "Character Window"
+	picload "Data/Image/DangoPink.bmp"
+	var_80 = 24
+	buffer var_69, var_28, var_29
+	title "TEST WINDOW"
+	picload "Data/Image/BG_Menu.bmp"
+	buffer ( var_69 + 1 ), var_28, var_29
+	title "TEST WINDOW"
+	picload "Data/Image/HowToPlay.bmp"
+*label_91
+	gsel var_30
+	pos 0, 0
+	pos 0, 0
+	gmode 1, var_28, var_29, 0
+	gcopy var_69, 0, 0, var_28, var_29
+	apply 50
+	repeat
+		await 10
+		var_107 = var_97
+		var_108 = var_99
+		stick var_79, 0, 1
+		if var_100 ! 1 {
+			getmouse var_97, var_99
+		}
+		if var_100 ! 1 {
+			var_101 = mousex
+			var_102 = mousey
+		}
+		if var_100 = 1 {
+			if mousex ! var_101 {
+				var_100 = 0
+			}
+		}
+		if var_100 = 1 {
+			if mousey ! var_102 {
+				var_100 = 0
+			}
+		}
+		if var_79 = 1 {
+			var_99 - -
+			var_100 = 1
+		}
+		if var_79 = 2 {
+			var_97 + +
+			var_100 = 1
+		}
+		if var_79 = 4 {
+			var_99 + +
+			var_100 = 1
+		}
+		if var_79 = 8 {
+			var_97 - -
+			var_100 = 1
+		}
+		if var_97 > 5 {
+			var_97 = 5
+		}
+		if var_97 < 1 {
+			var_97 = 1
+		}
+		if var_107 ! var_97 {
+			mci "seek Move to start"
+			mci "play Move"
+		}
+		gsel var_30
+		pos 0, 0
+		pos 0, 0
+		gmode 1, var_28, var_29, 0
+		gcopy var_69, 0, 0, var_28, var_29
+		setchar 1, var_97, 4
+		font "MS UI Gothic", 28
+		color 0, 0, 0
+		pos ( 48 * 6 ), ( ( 48 * 3 ) + 16 )
+		mes "チャレンジモード"
+		pos ( 48 * 6 ), ( ( 48 * 4 ) + 16 )
+		mes "エキスパート・アタック"
+		pos ( 48 * 6 ), ( ( 48 * 5 ) + 16 )
+		mes "説明 ～上手な食べ方～"
+		pos ( 48 * 6 ), ( ( 48 * 6 ) + 16 )
+		mes "アップデート確認"
+		pos ( 48 * 6 ), ( ( 48 * 7 ) + 16 )
+		mes "終了"
+		applyex
+		if var_79 = 32 {
+			var_79 = 256
+		}
+		if var_79 = 256 {
+			mci "seek Move to start"
+			mci "play Move"
+			break
+		}
+	loop
+	if var_97 = 5 {
+		goto label_93
+	}
+	if var_97 = 4 {
+		goto label_94
+	}
+	if var_97 = 3 {
+		goto label_95
+	}
+	if var_97 = 2 {
+		goto label_96
+	}
+	if var_97 = 1 {
+		goto label_97
+	}
+	goto label_98
+*label_90
+	if var_53 = 1 {
+		mci "close BGM"
+		font "MS UI Gothic", 28
+		color 0, 0, 0
+		gsel var_30
+		picload "Data/Image/BG_GameOver.bmp"
+		color 255, 255, 255
+		pos 40, ( winy - 150 )
+		font "MS UI Gothic", 28
+		mes "Score : " + var_83
+		var_78 = var_83
+		int var_78
+		func_setreg var_78, "SYSTEMID", 0
+		apply 30
+		repeat 300
+			await 10
+			stick var_79, 0, 1
+			if var_79 = 256 {
+				var_31 = 1
+			}
+			if var_31 = 1 {
+				break
+			}
+		loop
+		if var_31 = 1 {
+			goto label_63
+		}
+		gsel var_30
+		color 0, 0, 0
+		boxf
+		applyfc 60
+		goto label_63
+	}
+	stop
+*label_93
+	var_85 = 1
+	var_111 = 1
+	var_124 = 10
+	var_86 = 2
+	var_84 = 0
+	goto label_72
+	stop
+*label_94
+	var_85 = 2
+	var_111 = 11
+	var_124 = 5
+	var_86 = 14
+	var_84 = 0
+	var_124 = 5
+	goto label_72
+	stop
+*label_95
+	gsel var_30
+	color 0, 0, 0
+	boxf
+	apply 30
+	gsel var_30
+	pos 0, 0
+	pos 0, 0
+	gmode 1, var_28, var_29, 0
+	gcopy ( var_69 + 1 ), 0, 0, var_28, var_29
+	apply 30
+	repeat
+		await 10
+		stick var_79, 0, 1
+		if var_79 = 32 {
+			var_79 = 256
+		}
+		if var_79 = 256 {
+			mci "seek Move to start"
+			mci "play Move"
+			gsel var_30
+			color 0, 0, 0
+			boxf
+			apply 30
+			goto label_91
+		}
+	loop
+	stop
+*label_96
+	exec "http://c.dark-x.net/?Page=CDGNP", 16
+	end
+*label_97
+	gsel var_30
+	color 0, 0, 0
+	boxf
+	apply 30
+	end
+*label_98
+	mci "stop BGM"
+	mci "close BGM"
+	stop
+*label_75
+	gsel var_27
+	pos 0, 0
+	gmode 1, var_28, var_29, 256
+	gcopy var_30, 0, 0
+	return
+	return
+	end
