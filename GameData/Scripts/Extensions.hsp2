@@ -1,0 +1,345 @@
+#uselib "HSP.v26.Exts.dll"
+#func func_regkey regkey $0004
+#func func_regkill regkill $0004
+#func func_getreg getreg $0005
+#func func_setreg setreg $0005
+#func func_reglist reglist $0001
+#func func_regdone regdone $0100
+#func func_comopen comopen $0004
+#func func_comclose comclose $0000
+#func func_comput comput $0006
+#func func_computc computc $0000
+#func func_comget comget $0001
+#func func_comgetc comgetc $0001
+#func func_comstat comstat $0001
+#func func_comcontrol comcontrol $0000
+#func func_gfini gfini $0002
+#func func_gfdec gfdec $0000
+#func func_gfinc gfinc $0000
+#func func_gfcopy gfcopy $0002
+#func func_grect grect $0202
+#func func_grotate grotate $0202
+#func func_gsquare gsquare $0202
+#func func_emath emath $0000
+#func func_emstr emstr $0001
+#func func_emcnv emcnv $0005
+#func func_emint emint $0001
+#func func_emsin emsin $0001
+#func func_emcos emcos $0001
+#func func_ematan ematan $0001
+#func func_emsqr emsqr $0001
+#func func_sysexit sysexit $0000
+#func func_fxcopy fxcopy $0005
+#func func_fxren fxren $0005
+#func func_fxinfo fxinfo $0001
+#func func_fxaset fxaset $0006
+#func func_fxaget fxaget $0005
+#func func_fxtget fxtget $0005
+#func func_fxtset fxtset $0005
+#func func_fxshort fxshort $0005
+#func func_fxlink fxlink $0005
+#func func_fxdir fxdir $0001
+#func func_clipset clipset $0006
+#func func_clipget clipget $0001
+#func func_clipsetg clipsetg $0002
+#func func_aplsel aplsel $0016
+#func func_aplobj aplobj $0016
+#func func_aplact aplact $0010
+#func func_aplstr aplstr $0006
+#func func_aplkey aplkey $0002
+#func func_aplkeyu aplkeyu $0002
+#func func_aplkeyd aplkeyd $0002
+#func func_aplfocus aplfocus $0002
+#func func_aplget aplget $0001
+#func func_apledit apledit $0011
+#func func_hsvcolor hsvcolor $0002
+#func func_selfolder selfolder $0015
+#func func_lzcopy lzcopy $0016
+#func func_lzdist lzdist $0006
+#func func_pipeexec pipeexec $0005
+#func func_pipeput pipeput $0000
+#func func_pipeget pipeget $0083
+#func func_dirlist2 dirlist2 $0005
+#func func_dirlist2r dirlist2r $0001
+#func func_dirlist2h dirlist2h $0000
+#uselib "HSP.v26.Socket.dll"
+#func func_sockopen sockopen $0004
+#func func_sockclose sockclose $0000
+#func func_sockget sockget $0001
+#func func_sockgetc sockgetc $0001
+#func func_sockput sockput $0006
+#func func_sockputc sockputc $0002
+#func func_sockmake sockmake $0010
+#func func_sockgetb sockgetb $0001
+#func func_sockputb sockputb $0001
+#func func_ipget ipget $0010
+#func func_sockcheck sockcheck $0000
+#func func_sockwait sockwait $0010
+#func func_sockbye sockbye $0100
+	var_0 = 0
+	goto * label_1
+#deffunc dll_getfunc val, str, int
+	mref var_1, 16
+	mref var_2, 33
+	mref var_3, 2
+	if var_3 & -256 = 0 {
+		var_3 = var_4 . var_3
+	}
+	ll_getproc var_1, var_2, var_3
+	if var_1 = 0 {
+		dialog "can not find '" + var_2 + "'\ndll=" + var_3
+	}
+	return
+#deffunc getptr val, val
+	mref var_1, 16
+	mref var_2, 1025
+	if ( var_2 & 65535 = 2 ) {
+		mref var_3, 25
+	}
+	else mref var_3, 17 {
+	}
+	ll_getptr var_3
+	var_1 = var_0
+	return
+#deffunc _init_llmod int, int, int, int
+	if var_4 {
+		return
+	}
+	sdim var_5, 64, 16
+	ll_retset var_0
+	var_5 . 0 = "kernel32"
+	var_5 . 1 = "user32"
+	var_5 . 2 = "shell32"
+	var_5 . 3 = "comctl32"
+	var_5 . 4 = "comdlg32"
+	var_5 . 5 = "gdi32"
+	repeat 6
+		ll_libload var_4 . cnt, var_5 . cnt
+	loop
+	var_5 = "SendMessageA", "CreateWindowExA", "GetActiveWindow"
+	repeat 3
+		ll_getproc var_6 . cnt, var_5 . cnt, var_4 . 1
+	loop
+	alloc var_5, 64
+	mref var_7, 64
+	gosub label_7
+	return
+#deffunc dllproc str, val, int, int
+	mref var_8, 32
+	mref var_9, 17
+	mref var_10, 2
+	mref var_11, 3
+	if var_11 & -256 {
+		var_0 = var_11
+	}
+	else var_0 = var_4 . var_11 {
+	}
+	ll_getproc var_12, var_8, var_0
+	if var_12 {
+		ll_callfunc var_9, var_10, var_12
+		var_7 = var_0
+	}
+	else {
+		dialog "can not find '" + var_8 + "'\ndll=" + var_11
+		getkey var_13, 16
+		if var_13 {
+			end
+		}
+	}
+	return
+#deffunc getmjrdll val, int
+	mref var_14, 16
+	mref var_15, 1
+	var_14 = var_4 . var_15
+	return
+#deffunc getmjrfunc val, int
+	mref var_14, 16
+	mref var_15, 1
+	var_14 = var_6 . var_15
+	return
+*label_7
+	alloc var_16, 4 * 64
+	return
+#deffunc _cls int
+	mref var_14
+	var_12 = var_6 . 0
+	var_17 . 1 = 16, 0, 0
+	repeat 64
+		var_17 = var_16 . cnt
+		if var_17 {
+			ll_callfunc var_17, 4, var_12
+		}
+	loop
+	gosub label_7
+	cls var_14
+	return
+#deffunc _get_instance val
+	mref var_14, 16
+	mref var_18, 67
+	var_14 = var_18 . 14
+	return
+#deffunc _get_active_window val
+	mref var_14, 16
+	ll_callfnv var_6 . 2
+	var_14 = var_0
+	return
+#deffunc sendmsg val
+	mref var_14, 16
+	ll_callfunc var_14, 4, var_6 . 0
+	var_7 = var_0
+	return
+#deffunc setwndlong val, int
+	mref var_14, 16
+	mref var_15, 1
+	if var_15 {
+		var_5 = "G"
+		var_13 = 2
+	}
+	else {
+		var_5 = "S"
+		var_13 = 3
+	}
+	var_5 + = "etWindowLongA"
+	dllproc var_5, var_14, var_13, 1
+	return
+#deffunc _null_sep_str val, int
+	mref var_14, 24
+	mref var_15, 1
+	strlen var_19, var_14
+	var_13 = 0
+	var_17 = 0
+	repeat var_19
+		peek var_13, var_14, cnt
+		if var_13 = var_15 {
+			poke var_14, cnt, 0
+			var_17 +
+		}
+	loop
+	var_7 = var_17
+	return
+#deffunc _makewnd val, str
+	mref var_20, 16
+	mref var_21, 33
+	mref var_18, 67
+	var_22 = -1
+	repeat 64
+		if var_16 . cnt = 0 {
+			var_22 = cnt
+			break
+		}
+	loop
+	if var_22 = -1 {
+		var_7 = -1
+		return
+	}
+	if var_20 . 2 = 0 {
+		var_20 . 2 = var_18 . 29
+	}
+	if var_20 . 3 = 0 {
+		var_20 . 3 = var_18 . 30
+	}
+	var_17 = var_20 . 6
+	var_5 = var_21
+	getptr var_17 . 1, var_5
+	var_23 = ""
+	getptr var_17 . 2, var_23
+	var_17 . 3 = var_20 . 4, var_20 . 0, var_20 . 1, var_20 . 2, var_20 . 3, 0, 0, 0, 0
+	if var_20 . 5 {
+		var_17 . 8 = var_20 . 5
+	}
+	else var_17 . 8 = var_18 . 13 {
+	}
+	_get_instance var_17 . 10
+	ll_callfunc var_17, 12, var_6 . 1
+	var_20 = var_0
+	var_16 . var_22 = var_20
+	if var_17 . 7 < var_18 . 31 {
+		var_13 = var_18 . 31
+	}
+	else var_13 = var_17 . 7 {
+	}
+	pos csrx, csry + var_13
+	var_17 = var_20, - 12, 4096 + var_22
+	setwndlong var_17
+	var_7 = 0
+	return
+#deffunc _is_wnd int
+	mref var_14
+	dllproc "IsWindow", var_14, 1, 1
+	return
+#deffunc _hspobjhandle int
+	mref var_14
+	mref var_18, 67
+	if ( var_14 < 0 ) | ( var_14 > 63 ) {
+		var_7 = 0
+	}
+	else {
+		var_14 + = 41
+		var_7 = var_18 . var_14
+	}
+	return
+#deffunc _hspobjid int
+	mref var_14
+	mref var_18, 67
+	var_7 = -1
+	repeat 64, 41
+		if var_18 . cnt = var_14 {
+			var_7 = cnt - 41
+			break
+		}
+	loop
+	return
+#deffunc _objsel int
+	mref var_14
+	if var_14 = -1 {
+		mref var_18, 67
+		dllproc "GetFocus", var_13, 0, 1
+		if stat = var_18 . 13 {
+			var_7 = -1
+			return
+		}
+		var_13 = stat
+		_hspobjid var_13
+		if stat ! -1 {
+			var_13 = stat
+		}
+		var_7 = var_13
+	}
+	else {
+		var_13 = var_14
+		_hspobjhandle var_13
+		if stat {
+			var_13 = stat
+		}
+		dllproc "SetFocus", var_13, 1, 1
+	}
+	return
+#deffunc _clrobj int, int
+	mref var_14, 0
+	mref var_15, 1
+	var_13 = var_14
+	_hspobjhandle var_13
+	if stat {
+		clrobj var_14
+		return
+	}
+	var_17 = var_13, 16, 0, 0
+	ll_callfunc var_17, 4, var_6 . 0
+	repeat 64
+		if var_16 . cnt = var_13 {
+			var_16 . cnt = 0
+			break
+		}
+	loop
+	var_7 = var_0
+	return
+#deffunc charupper val
+	mref var_14, 1024
+	dllproc "CharUpperA", var_14 . 7, 1, 1
+	return
+#deffunc charlower val
+	mref var_14, 1024
+	dllproc "CharLowerA", var_14 . 7, 1, 1
+	return
+*label_1
+	_init_llmod

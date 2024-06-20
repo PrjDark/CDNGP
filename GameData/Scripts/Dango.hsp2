@@ -1,10 +1,8 @@
-#include "hspext.as"
-#include "hspsock.as"
-#include "llmod.as"
+#include "GameData/Scripts/Extensions.hsp2"
 
 goto * MAIN
 
-#include "game.hsp2"
+#include "GameData/Scripts/game.hsp2"
 
 *MAIN
 	skiperr 1
@@ -22,7 +20,7 @@ goto * MAIN
 	var_74 = 100
 	var_28 = 800
 	var_29 = ( var_28 / 16 ) * 9
-	var_75 = "CDNGP:J:A:A:20110802001"
+	var_75 = "CDNGP:J:B:A:20110802001"
 	var_76 = "ÇæÇÒÇ≤ÇΩÇ◊ÇŸÇ§ÇæÇ¢"
 	var_77 = "(C)2011 Project DarkÅö All Rights Reserved."
 	func_regkey 0, "SOFTWARE\\Project Dark\\Dango Tabehoudai\\", 1
@@ -35,11 +33,10 @@ goto * MAIN
 	buffer var_30, var_28, var_29
 	title "Back Buffer"
 	screen var_27, var_28, var_29, 2
-	title "Midtime Engine HD v1.12.6 Final  -  Powered by DeepCave Exploration"
+	title "ÇæÇÒÇ≤ÇΩÇ◊ÇŸÇ§ÇæÇ¢ - Midtime (Version 2.00) - https://mjhsc.wordpress.com/"
 	cls 4
 	gsel var_27, 1
 	await 2000
-	title "" + var_76
 	repeat 3
 		color 0, 0, 0
 		boxf
@@ -66,7 +63,7 @@ goto * MAIN
 	boxf
 	font "MS UI Gothic", var_73
 	color 255, 255, 255
-	picload "Data/Image/CircleLogo.bmp"
+	picload "GameData/Images/CircleLogo.bmp"
 	applyfc 40
 	if var_31 = 1 {
 		goto label_64
@@ -90,7 +87,7 @@ goto * MAIN
 	applyfc 20
 *label_64
 	var_31 = 0
-	mci "open Data/Sound/BGM_Title.wav alias BGM type MPEGVIDEO"
+	mci "open GameData/Sounds/BGM_Title.wav alias BGM type MPEGVIDEO"
 	mci "play BGM"
 	var_80 = 24
 	buffer var_70, 220, var_80, 0
@@ -117,7 +114,7 @@ goto * MAIN
 	font "MS UI Gothic", var_81
 	buffer var_69, var_28, var_29
 	title "TEST WINDOW"
-	picload "Data/Image/Title.bmp"
+	picload "GameData/Images/Title.bmp"
 	color 0, 0, 0
 	pos 40, ( winy - 100 )
 	font "MS UI Gothic", 28
@@ -185,43 +182,43 @@ goto * MAIN
 	var_83 = var_84
 	buffer var_69, var_28, var_29
 	title "TEST WINDOW"
-	picload "Data/Image/BG.bmp"
+	picload "GameData/Images/BG.bmp"
 	if var_85 = 2 {
-		picload "Data/Image/BG_Boss.bmp"
+		picload "GameData/Images/BG_Boss.bmp"
 	}
 	mci "close BGM"
 	if var_85 = 1 {
-		mci "open Data/Sound/BGM_OS.wav alias BGM type MPEGVIDEO"
+		mci "open GameData/Sounds/BGM_OS.wav alias BGM type MPEGVIDEO"
 	}
 	if var_85 = 2 {
-		mci "open Data/Sound/BGM_Boss.wav alias BGM type MPEGVIDEO"
+		mci "open GameData/Sounds/BGM_Boss.wav alias BGM type MPEGVIDEO"
 	}
 	mci "play BGM repeat"
 	buffer ( var_35 + 1 ), 48, 48
 	title "Character Window"
-	picload "Data/Image/DangoPink.bmp"
+	picload "GameData/Images/DangoPink.bmp"
 	buffer ( var_35 + 2 ), 48, 48
 	title "Character Window"
-	picload "Data/Image/DangoWater.bmp"
+	picload "GameData/Images/DangoWater.bmp"
 	buffer ( var_35 + 3 ), 48, 48
 	title "Character Window"
-	picload "Data/Image/DangoGreen.bmp"
+	picload "GameData/Images/DangoGreen.bmp"
 	buffer ( var_35 + 4 ), 48, 48
 	title "Character Window"
-	picload "Data/Image/DangoBlack.bmp"
+	picload "GameData/Images/DangoBlack.bmp"
 	buffer ( var_35 + 5 ), 48, 48
 	title "Character Window"
-	picload "Data/Image/DangoBurn.bmp"
+	picload "GameData/Images/DangoBurn.bmp"
 	buffer ( var_35 + 6 ), 48, 48
 	title "Character Window"
 	buffer ( var_35 + 7 ), 48, 48
 	title "Character Window"
 	buffer ( var_35 + 8 ), 48, 48
 	title "Character Window"
-	picload "Data/Image/Decide.bmp"
+	picload "GameData/Images/Decide.bmp"
 	buffer ( var_35 + 9 ), 48, 48
 	title "Character Window"
-	picload "Data/Image/Boxes.bmp"
+	picload "GameData/Images/Boxes.bmp"
 	initdc
 	repeat var_86
 		generaternd
@@ -576,20 +573,20 @@ goto * MAIN
 	goto label_90
 *label_71
 	mci "close BGM"
-	mci "open Data/Sound/MenuDDC.wav alias Move type MPEGVIDEO"
-	mci "open Data/Sound/Pop.wav alias Decide type MPEGVIDEO"
-	mci "open Data/Sound/BGM_Game.wav alias BGM type MPEGVIDEO"
+	mci "open GameData/Sounds/MenuDDC.wav alias Move type MPEGVIDEO"
+	mci "open GameData/Sounds/Pop.wav alias Decide type MPEGVIDEO"
+	mci "open GameData/Sounds/BGM_Game.wav alias BGM type MPEGVIDEO"
 	mci "play BGM repeat"
 	buffer ( var_35 + 1 ), 48, 48
 	title "Character Window"
-	picload "Data/Image/DangoPink.bmp"
+	picload "GameData/Images/DangoPink.bmp"
 	var_80 = 24
 	buffer var_69, var_28, var_29
 	title "TEST WINDOW"
-	picload "Data/Image/BG_Menu.bmp"
+	picload "GameData/Images/BG_Menu.bmp"
 	buffer ( var_69 + 1 ), var_28, var_29
 	title "TEST WINDOW"
-	picload "Data/Image/HowToPlay.bmp"
+	picload "GameData/Images/HowToPlay.bmp"
 *label_91
 	gsel var_30
 	pos 0, 0
@@ -695,7 +692,7 @@ goto * MAIN
 		font "MS UI Gothic", 28
 		color 0, 0, 0
 		gsel var_30
-		picload "Data/Image/BG_GameOver.bmp"
+		picload "GameData/Images/BG_GameOver.bmp"
 		color 255, 255, 255
 		pos 40, ( winy - 150 )
 		font "MS UI Gothic", 28
